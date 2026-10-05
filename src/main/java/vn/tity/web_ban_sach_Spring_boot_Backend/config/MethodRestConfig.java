@@ -15,12 +15,28 @@ import vn.tity.web_ban_sach_Spring_boot_Backend.entity.User;
 @Configuration
 public class MethodRestConfig implements RepositoryRestConfigurer {
 
-    private String url = "http://localhost:8080";
+    private String url = "http://localhost:3000";
     @Autowired
     private EntityManager entityManager;
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+        // Cho phép trả về id
+        config.exposeIdsFor(
+                entityManager.getMetamodel()
+                        .getEntities()
+                        .stream()
+                        .map(Type::getJavaType)
+                        .toArray(Class[]::new)
+        );
+
+// config.exposeIdsFor(TheLoai.class);
+        // CORS configuration
+        cors.addMapping("/**")
+                .allowedOrigins(url)
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+
+        // chặn các phương thức
         HttpMethod[] disableMethod = {
                 HttpMethod.POST,
                 HttpMethod.PUT,
@@ -39,12 +55,11 @@ public class MethodRestConfig implements RepositoryRestConfigurer {
 //                        .toArray(Class[]::new)
 //        );
 
-//        disableHttpMethod(Category.class,config, disableMethod);
-//
-//        HttpMethod[] deleteMethod = {
-//                HttpMethod.DELETE,
-//        };
-//        disableHttpMethod(User.class,config, deleteMethod);
+       disableHttpMethod(Category.class,config, disableMethod);
+       HttpMethod[] deleteMethod = {
+              HttpMethod.DELETE,
+      };
+   disableHttpMethod(User.class,config, deleteMethod);
 
     }
 

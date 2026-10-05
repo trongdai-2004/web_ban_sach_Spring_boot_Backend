@@ -2,6 +2,8 @@ package vn.tity.web_ban_sach_Spring_boot_Backend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Blob;
 @Entity
@@ -18,7 +20,7 @@ public class image {
     private boolean laIcon;
     @Column(name = "image_path")
     private String imagePath;
-    @Column(name = "image_data")
+    @Column(name = "image_data",columnDefinition = "LONGTEXT")
     @Lob
     private String imageData;
 
