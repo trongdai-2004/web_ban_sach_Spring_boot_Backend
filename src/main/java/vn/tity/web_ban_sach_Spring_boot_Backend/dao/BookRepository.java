@@ -11,4 +11,8 @@ import vn.tity.web_ban_sach_Spring_boot_Backend.entity.Book;
 @RepositoryRestResource(path = "book")
 public interface BookRepository extends JpaRepository<Book, Integer> {
         Page<Book> findByBookNameContaining(@RequestParam("bookName") String bookName, Pageable pageable);
+        Page<Book> findByListCategory_categoryID(@RequestParam("category_id") int categoryID, Pageable pageable);
+
+        Page<Book> findByBookNameContainingAndListCategory_categoryID(@RequestParam("bookName") String bookName,@RequestParam("category_id") int categoryID, Pageable pageable);
+
 }
